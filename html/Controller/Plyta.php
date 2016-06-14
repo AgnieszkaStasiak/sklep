@@ -51,9 +51,10 @@ if(in_array($row['Nazwa'], $obuSpr)){
   
  }
  else{
+   
       echo("<option value=\"" . $row['idProdukt'] . "\">" . $row['Nazwa'] . "</option>");
           $obuSpr[]= $row['Nazwa'] ;   
-  
+          
  }  
         
 //}
@@ -67,19 +68,17 @@ if(in_array($row['Nazwa'], $obuSpr)){
 ?>   
 
 </select>
-<?php
-echo '<br>';
-var_dump($obuSpr);
 
-?>
 <div class="PlytaBox">
     <?php
     $plytaGl = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Płyta Główna'");
     $plytaGl->execute();
     foreach ($plytaGl as $row) {
-        echo " <div class=\"btn-group\">";
+         echo"<div id=\"content\">";
         echo("<div id = \"" . $row['idProdukt'] . "\" class=\"plyta\"style=\"display: none\">" . $row['Nazwa'] . " " . $row['Cena'] . " " . $row['Opis']);
-        echo"<button onClick=\"logowanie.php\">Dodaj do koszyka</button>";
+        echo"<br>";
+       // echo"<button onClick=\"myKoszykPlGl()\">Dodaj do koszyka</button>";
+        
         echo "</div>";
         echo "</div>";
         

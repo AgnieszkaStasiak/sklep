@@ -1,3 +1,31 @@
 .zawartosc{
-    margin-top: 60px;
+    background-color: #f3f0f0;
+   
+   margin-left: auto;
+   margin-right: auto;
+/*   text-align: center;*/
+    
+    
+}
+.navbar-default {
+    background-color: #111;
+}
+        
+/*  background-image: url('../nav2.png');
+   border-color: #000000;
+    
+}
+.navbar-default .navbar-brand {
+    color: #000;
+}
+navbar-default .navbar-nav > li > a {
+    color: #000;
+}*/
+
+div#content {
+width: 100%; background: #d9edf7 ;
+}
+
+.footer{
+    background-color: gray;
 }

@@ -28,7 +28,7 @@ if(isset($_SESSION['Zalogowany'])&& $_SESSION['Zalogowany']== TRUE){
      exit();
 }
 $_SESSION['NZalogowany']=TRUE;
-
+$Koszyk=array();
 
 
 ?>
@@ -40,8 +40,10 @@ $_SESSION['NZalogowany']=TRUE;
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Sklep internetowy</title> 
         <link href="html/Content/css/bootstrap.min.css" rel="stylesheet">
+        <link href="html/Content/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+         <link href="html/Content/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="html/Content/css/style.css" rel="stylesheet">
-                <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+ <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
         <script src="html/Content/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="plik.js"></script>
@@ -49,45 +51,39 @@ $_SESSION['NZalogowany']=TRUE;
 
     </head>
     <body>
+        <div class="zawartosc">
+ <nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Grupowanie "marki" i przycisku rozwijania mobilnego menu -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Rozwiń nawigację</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.php">"Twój Komputer"</a>
+    </div>
 
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.php">"Sklep"</a>
+    <!-- Grupowanie elementów menu w celu lepszego wyświetlania na urządzeniach moblinych -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+          <li><a href="html/View/rejestracja.php">Rejestracja</a></li>
+        <li> <a href="html/View/logowanie.php">Logowanie</a></li>
+      </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="html/Controller/koszyk.php">Koszyk</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 
-                <div class="navbar-header">
-                    <div class="btn-group">
-                        <button type="button" class="navbar-toggle btn btn-default dropdown-toggle" data-toggle="collapse dropdown #bs-example-navbar-collapse-1">
-                            <span class="sr-only">Rozwiń nawigację</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>    
-                        </button>
-
-                    </div>  
-                </div>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                      
-                        <li>
-                            <a href="html/View/rejestracja.php">Rejestracja</a>
-                        </li>
-                        <li>
-                            <a href="html/View/logowanie.php">Logowanie</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>       
-
-        </nav>
-
-
-
-        <div class="container-fluid" style="margin-top: 50px">
+        <div class="container-fluid">
 
 
 
 
-            <div class="col-md-8"> 
+            <div class="col-md-12"> 
                 <br>
 
                 Złóż swój własny komputer.  
@@ -95,7 +91,7 @@ $_SESSION['NZalogowany']=TRUE;
                 <br>
 
 
-                <form method="POST" action="">
+                <form method="POST" action="" id = "Produkty">
 
                     <label for="obudowa">Obudowa</label><br>
                     <!--Dodawanie Obudowy-->
@@ -118,9 +114,59 @@ $_SESSION['NZalogowany']=TRUE;
                         $dane->execute();
 
                         foreach ($dane as $row) {
-                            echo("<div id = \"" . $row['idProdukt'] . "\" class=\"obudowa\" style=\"display: none\">" . $row['Nazwa'] . " " . $row['Cena'] . " " . $row['Opis'] . "</div>");
-                        }
+          
+                            echo"<div id=\"content\">";
+                            echo("<div id = \"" . $row['idProdukt'] . "\" class=\"obudowa\" style=\"display: none\">");
+                            echo "<h3>".$row['Nazwa']."</h3>";
+                            echo "<h4>OPis</h4>". $row['Opis']."<br>";
+                            echo "cena: ". $row['Cena']."zł.</br>";
+                         
+                               echo "<br>";
+                               echo"</div>";
+                               echo"</div>";
+                            }
                         ?>
+                        <script>
+                                function mykoszykObu() {
+                var ajaxRequest;  // The variable that makes Ajax possible!
+
+                try {
+                    // Opera 8.0+, Firefox, Safari
+                    ajaxRequest = new XMLHttpRequest();
+                } catch (e) {
+                    // Internet Explorer Browsers
+                    try {
+                        ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (e) {
+                        try {
+                            ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (e) {
+                            // Something went wrong
+                            alert("Your browser broke!");
+                            return false;
+                        }
+                    }
+                }
+
+                // Create a function that will receive data 
+                // sent from the server and will update
+                // div section in the same page.
+
+
+//
+//                // Now get the value from user and pass it to
+//                // server script.
+//
+
+                var obud = document.getElementById('btnObu').value;
+
+                var queryString = "?obud=" + obud;
+
+                ajaxRequest.open("GET", "html/Controller/koszyk.php" + queryString, true);
+
+                ajaxRequest.send(null);
+            }
+                        </script>
                     </div>  
 
                 <!--Początek wybierania płyty-->
@@ -185,15 +231,60 @@ $_SESSION['NZalogowany']=TRUE;
                     </script>
                     </br>
                     <!--Koniec wybierania Pamięci-->
+                    
+                 
+                    
+                    
+                    
+                    <button onClick="ajaxFunctionKosz()" >Do koszyka</button>
+         
+
                 </form>
+                <script type="text/javascript">
+                    
+                          function ajaxFunctionKosz() {
+                var ajaxRequest;  // The variable that makes Ajax possible!
+
+                try {
+                    // Opera 8.0+, Firefox, Safari
+                    ajaxRequest = new XMLHttpRequest();
+                } catch (e) {
+                    // Internet Explorer Browsers
+                    try {
+                        ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (e) {
+                        try {
+                            ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (e) {
+                            // Something went wrong
+                            alert("Your browser broke!");
+                            return false;
+                        }
+                    }
+                }
 
 
+
+                var obud = document.getElementById('Obu').value;
+                var plyta = document.getElementById('plytaG').value;
+                var zasilacz = document.getElementById('zasilacz').value;
+                var pam = document.getElementById('pamiec').value;
+                var procesor = document.getElementById('procesor').value;
+
+                var queryString = "?obud=" + obud +"&plyta=" + plyta + "&zasialcz=" + zasilacz + "&procesor=" + procesor +"&pam=" + pam; 
+
+                ajaxRequest.open("GET", "html/Controller/koszyk.php" + queryString, true);
+
+                ajaxRequest.send(null);
+            }    
+                    </script>
+             
             </div>   
 
         </div>
 
-
-     
+        </div>
+   <footer class="footer">...</footer>  
     </body>
 </html>
 
