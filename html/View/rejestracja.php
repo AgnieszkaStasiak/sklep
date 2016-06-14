@@ -29,7 +29,7 @@
     } else {
         // Sprawdzanie długości imienia
         if ((strlen($imie) < 3) || (strlen($imie) > 15)) {
-            $NiDlImienia = 'Imie musi posiadać od 3 do 20 znaków!<br><br>';
+            $NiDlImienia = '<span style="color:red">Imie musi posiadać od 3 do 20 znaków!</span><br><br>';
             $wszystko_OK = false;
         }
 
@@ -38,7 +38,7 @@
 // Sprawdzanie składni imienia
 
         if (ereg($sprawdz, $imie)) {
-            $NiePrDan = 'Imie może składać się tylko z liter !<br><br>';
+            $NiePrDan = '<span style="color:red">Imie może składać się tylko z liter !!! </span><br><br>';
             $wszystko_OK = false;
         }
     }
@@ -51,7 +51,7 @@
 
     //Sprawdzanie czy zmienna została wprowadzona
     if ($nazwisko == '') {
-        $BrNazwiska = 'Pole konieczne <br> <br>';
+        $BrNazwiska = '<span style="color:red">Pole konieczne !!!</span> <br> <br>';
         $wszystko_OK = false;
     } else {
 
@@ -59,7 +59,7 @@
         //Sprawdzanie długości Nazwiska
         if ((strlen($nazwisko) < 3) || (strlen($nazwisko) > 20)) {
             $wszystko_OK = false;
-            $NiePrDlNa = 'Nazwisko musi posiadać od 3 do 20 znaków ! <br><br>';
+            $NiePrDlNa = '<span style="color:red">Nazwisko musi posiadać od 3 do 20 znaków !!! </span> <br><br>';
         }
 
         //Sprawdzanie poprawnosci składni Nazwiska
@@ -67,7 +67,7 @@
 
         if (ctype_alpha($nazwisko) == false) {
             $wszystko_OK = false;
-            $NiePrDaNa = 'Nazwisko może składać się tylko z lier !<br><br>';
+            $NiePrDaNa = '<span style="color:red">Nazwisko może składać się tylko z lier !!!</span><br><br>';
         }
     }
 
@@ -86,7 +86,7 @@
     $Login = $_POST['login'];
     
     if($Login ==''){
-        $BrLogi = 'Pole konieczne';
+        $BrLogi = '<span style="color:red">Pole konieczne !!! </span> <br><br>';
     }
     
     
@@ -99,24 +99,24 @@
 
     if ($haslo == '') {
         $wszystko_OK = false;
-        $BrHas = 'Pole konieczne';
+        $BrHas = '<span style="color:red">Pole konieczne !!! </span><br><br>';
     } 
-//    else {
-//
-//        if ((strlen($haslo) < 8) || (strlen($haslo) > 20)) {
-//            $wszystko_OK = false;
-//            $NiePrDlHa = "Hasło musi posiadać od 8 do 20 znaków!";
-//        }
-//    }
-//    if ($haslo == '') {
-//        $wszystko_OK = false;
-//        $BrHas = 'Pole konieczne';
-//    } else {
-//        if ($haslo != $haslo2) {
-//            $wszystko_OK = false;
-//            $NieIdHa = "Podane hasła nie są identyczne!";
-//        }
-//    }
+    else {
+
+        if ((strlen($haslo) < 8) || (strlen($haslo) > 20)) {
+            $wszystko_OK = false;
+            $NiePrDlHa = "Hasło musi posiadać od 8 do 20 znaków!";
+        }
+    }
+    if ($haslo2 == '') {
+        $wszystko_OK = false;
+        $BrHas2 = '<span style="color:red">Pole konieczne!!!</span><br><br>';
+    } else {
+        if ($haslo != $haslo2) {
+            $wszystko_OK = false;
+            $NieIdHa = "<span style=\"color:red\">Podane hasła nie są identyczne !!!</span><br><br>";
+        }
+    }
 
 
 
@@ -132,7 +132,7 @@
   
     if ($ileE > 0) {
         $wszystko_OK = false;
-        $EmailIst = "Istnieje już konto przypisane do tego adresu e-mail!";
+        $EmailIst = "<span style=\"color:red\">Istnieje już konto przypisane do tego adresu e-mail !!!</span><br><br>";
     }
     
     //Czy login jest już zarezerwowany?
@@ -146,7 +146,7 @@
     }
     if ($ile > 0) {
         $wszystko_OK = false;
-        $LoginIst = "Istnieje już klient o takim loginie! Wybierz inny.";
+        $LoginIst = "<span style=\"color:red\">Istnieje już klient o takim loginie! Wybierz inny !!!</span><br><br>";
     }
     if ($wszystko_OK == true) {
        // Dodawanie zmiennych do bazy danych do tabeli Adres 
@@ -194,20 +194,22 @@ mysql_close ($db);
 <html>
 
     <head>
-
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Sklep internetowy</title> 
         <link href="../Content/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../Content/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+         <link href="../Content/css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="../Content/css/style.css" rel="stylesheet">
+ <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
         <script src="../Content/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-
-
+        <script type="text/javascript" src="../../plik.js"></script>
     </head>
 
     <body>
-
+      <div class="zawartosc">
 
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container-fluid">
@@ -335,10 +337,21 @@ if (isset($NiePrDan)) {
                     
                     
                     <label >Powtórz hasło:</label > <br> <input type="password" class="form-control" value="" name="haslo2" /><br />
+                    <?php
+                    if (isset($BrHas2)) {
+                        echo  $BrHas2;
+                    }
+                    
+                    if (isset($NieIdHa)) {
+                        echo  $NieIdHa;
+                    }
+                    ?>
+                    
+
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-primary">
                             <input type="checkbox">
-                            <span class="glyphicon glyphicon-ok"></span>
+                           
                             Akceptuje regulamin
                         </label>
 
@@ -354,6 +367,7 @@ if (isset($NiePrDan)) {
 
         <br>
         <br>
+        </div>
     </body>
 
 </html>
