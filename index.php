@@ -86,7 +86,7 @@ $Koszyk=array();
             <div class="col-md-12"> 
                 <br>
 
-                Złóż swój własny komputer.  
+                <h2> Złóż swój własny komputer:  </h2>
                 <br>
                 <br>
 
@@ -95,7 +95,8 @@ $Koszyk=array();
 
                     <label for="obudowa">Obudowa</label><br>
                     <!--Dodawanie Obudowy-->
-                    <select id="Obu" name="Obud" onchange="myFunctionO(), ajaxFunction(), ajaxFunctionZ()">
+                    <select class="btn btn-primary btn-block form-control" id="Obu" name="Obud" onchange="myFunctionO(), ajaxFunction(), ajaxFunctionZ(),ajaxFunctionPr(), ajaxFunctionPa()">
+                     
                         <option value="">-- wybierz --</option>
                         <?php
                         $obudowa = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Obudowa'");
@@ -115,58 +116,27 @@ $Koszyk=array();
 
                         foreach ($dane as $row) {
           
+                            
                             echo"<div id=\"content\">";
                             echo("<div id = \"" . $row['idProdukt'] . "\" class=\"obudowa\" style=\"display: none\">");
-                            echo "<h3>".$row['Nazwa']."</h3>";
-                            echo "<h4>OPis</h4>". $row['Opis']."<br>";
-                            echo "cena: ". $row['Cena']."zł.</br>";
-                         
-                               echo "<br>";
+                            echo "<br>";
+                            echo "<div class=\"panel panel-info\">";
+                            echo "<div class=\"panel-heading\">";
+                            echo "".$row['Nazwa']."";
+                              echo"</div>";
+                               echo "<div class=\"panel-boody\">";
+                            echo "Opis: <br>". $row['Opis']."<br>";
+                            echo"</div>";
+                             echo "<div class=\"panel-footer\">";
+                            echo "cena: ". $row['Cena']."zł</br>";
+                           echo"</div>";
+                            
                                echo"</div>";
+                                echo"</div>";
                                echo"</div>";
                             }
                         ?>
-                        <script>
-                                function mykoszykObu() {
-                var ajaxRequest;  // The variable that makes Ajax possible!
-
-                try {
-                    // Opera 8.0+, Firefox, Safari
-                    ajaxRequest = new XMLHttpRequest();
-                } catch (e) {
-                    // Internet Explorer Browsers
-                    try {
-                        ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-                    } catch (e) {
-                        try {
-                            ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-                        } catch (e) {
-                            // Something went wrong
-                            alert("Your browser broke!");
-                            return false;
-                        }
-                    }
-                }
-
-                // Create a function that will receive data 
-                // sent from the server and will update
-                // div section in the same page.
-
-
-//
-//                // Now get the value from user and pass it to
-//                // server script.
-//
-
-                var obud = document.getElementById('btnObu').value;
-
-                var queryString = "?obud=" + obud;
-
-                ajaxRequest.open("GET", "html/Controller/koszyk.php" + queryString, true);
-
-                ajaxRequest.send(null);
-            }
-                        </script>
+               
                     </div>  
 
                 <!--Początek wybierania płyty-->
@@ -175,7 +145,7 @@ $Koszyk=array();
                     <div id = 'PlyGluDiv'> 
                         <br>
                         <label for="plyta">Płyta główna</label><br>
-                        <select id="plytaG" onchange="myFunctionPG()">
+                        <select  class="btn btn-primary  btn-block" id="plytaG" onchange="myFunctionPG()">
                             <option value="">-- wybierz --</option>
                         </select></div> 
 
@@ -191,7 +161,7 @@ $Koszyk=array();
                     <div id = 'zasilaczDiv'> 
 
                         <label for="zasilacz">Zasilacz</label><br>
-                        <select name="zasilacz" id="zasilacz" onchange="myFunctionZ()">
+                        <select  class="btn btn-primary  btn-block" name="zasilacz" id="zasilacz" onchange="myFunctionZ()">
                             <option value="">-- wybierz --</option>
                         </select>
 
@@ -207,7 +177,7 @@ $Koszyk=array();
                     <div id = 'ProcesorDiv'> 
 
                         <label for="procesor">Procesor</label><br>
-                        <select name="procesor" id="procesor">
+                        <select  class="btn btn-primary  btn-block" name="procesor" id="procesor">
                             <option value="">-- wybierz --</option>
                         </select>
                     </div>
@@ -221,7 +191,7 @@ $Koszyk=array();
                     <!--Pocztek wybeirania Pamięci na podstawie danych z Płyty Głównej  -->
                     <div id = 'PamiecDiv'> 
                         <label for="pamiec">Pamięć</label><br>
-                        <select name="pamiec" id="pamiec">
+                        <select  class="btn btn-primary  btn-block" name="pamiec" id="pamiec">
                             <option value="">-- wybierz --</option>
                         </select>
                     </div>
@@ -233,13 +203,14 @@ $Koszyk=array();
                     <!--Koniec wybierania Pamięci-->
                     
                  
+                    <br>
                     
                     
-                    
-                    <button onClick="ajaxFunctionKosz()" >Do koszyka</button>
+                   <button class="btn btn-success" onClick="ajaxFunctionKosz(); return false;" >Do koszyka</button>
          
 
                 </form>
+                </br>
                 <script type="text/javascript">
                     
                           function ajaxFunctionKosz() {
@@ -271,7 +242,7 @@ $Koszyk=array();
                 var pam = document.getElementById('pamiec').value;
                 var procesor = document.getElementById('procesor').value;
 
-                var queryString = "?obud=" + obud +"&plyta=" + plyta + "&zasialcz=" + zasilacz + "&procesor=" + procesor +"&pam=" + pam; 
+                var queryString = "?obud=" + obud +"&plyta=" + plyta + "&zasilacz=" + zasilacz + "&procesor=" + procesor +"&pam=" + pam; 
 
                 ajaxRequest.open("GET", "html/Controller/koszyk.php" + queryString, true);
 

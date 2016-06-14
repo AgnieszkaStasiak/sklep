@@ -26,7 +26,7 @@ $grupaPa->execute();
                                  
                                 <label for="Pamiec">Pamięć</label><br>
                                 
-                                       <select id="pamiec" onchange="myFunctionPa()">
+                                       <select  class="btn btn-primary btn-block" id="pamiec" onchange="myFunctionPa()">
                                      <option value="">-- wybierz --</option>
 
 
@@ -70,7 +70,24 @@ foreach ($grupaPa as $row) {
 $pamiecG = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Pamięć'");
 $pamiecG->execute();
 foreach ($pamiecG as $row) {
-    echo("<div id = \"" . $row['idProdukt'] . "\" class=\"pamiec\"style=\"display: none\">" . $row['Nazwa'] . " " . $row['Cena'] . " " . $row['Opis'] . "</div>");
+                                 echo"<div id=\"content\">";
+                            echo("<div id = \"" . $row['idProdukt'] . "\" class=\"pamiec\" style=\"display: none\">");
+                            echo "<br>";
+                            echo "<div class=\"panel panel-info\">";
+                            echo "<div class=\"panel-heading\">";
+                            echo "".$row['Nazwa']."";
+                              echo"</div>";
+                               echo "<div class=\"panel-boody\">";
+                            echo "Opis: <br>". $row['Opis']."<br>";
+                            echo"</div>";
+                             echo "<div class=\"panel-footer\">";
+                            echo "cena: ". $row['Cena']."zł.</br>";
+                           echo"</div>";
+                            
+                               echo"</div>";
+                                echo"</div>";
+                               echo"</div>";
+    
 }
 ?>
 </div>  

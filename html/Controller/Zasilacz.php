@@ -22,7 +22,7 @@ $grupaZ->execute();
 
 <label for="zasilacz">Zasilacz</label><br>
 
-<select id="zasilacz" onchange="myFunctionZ()">
+<select  class="btn btn-primary  btn-block" id="zasilacz" onchange="myFunctionZ()">
     <option value="">-- wybierz --</option>
     <?php
     foreach ($grupaZ as $row) {
@@ -54,7 +54,25 @@ on P.idProdukt = LG.idProdukt WHERE NazwaK = 'Zasilacz'and LG.idGrupaProduktow =
 $zasilaczG = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Zasilacz'");
 $zasilaczG->execute();
 foreach ($zasilaczG as $row) {
-    echo("<div id = \"" . $row['idProdukt'] . "\" class=\"zasilacz\"style=\"display: none\">" . $row['Nazwa'] . " " . $row['Cena'] . " " . $row['Opis'] . "</div>");
+                                
+                            echo"<div id=\"content\">";
+                            echo("<div id = \"" . $row['idProdukt'] . "\" class=\"zasilacz\" style=\"display: none\">");
+                            echo "<br>";
+                            echo "<div class=\"panel panel-info\">";
+                            echo "<div class=\"panel-heading\">";
+                            echo "".$row['Nazwa']."";
+                              echo"</div>";
+                               echo "<div class=\"panel-boody\">";
+                            echo "Opis: <br>". $row['Opis']."<br>";
+                            echo"</div>";
+                             echo "<div class=\"panel-footer\">";
+                            echo "cena: ". $row['Cena']."zł.</br>";
+                           echo"</div>";
+                            
+                               echo"</div>";
+                                echo"</div>";
+                               echo"</div>";
+//    echo("<div id = \"" . $row['idProdukt'] . "\" class=\"zasilacz\"style=\"display: none\">" . $row['Nazwa'] . " " . $row['Cena'] . " " . $row['Opis'] . "</div>");
 }
 ?>
 </div>  
