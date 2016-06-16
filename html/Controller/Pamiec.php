@@ -1,17 +1,7 @@
                         
 
 <?php
-$pdo = new PDO('mysql:host=localhost;dbname=mydb', 'root', 'zaq11qaz');
-
-try {
-    $pdo->query('SET NAMES utf8');
-    $pdo->query('SET CHARACTER_SET utf8_unicode_ci');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //echo 'Połączenie nawiązane!';
-} catch (PDOException $e) {
-    echo 'Połączenie nie mogło zostać utworzone: ' . $e->getMessage();
-}
-
+require_once '../../connection.php'; 
 
 // Retrieve data from Query String
 $plytaGlow = $_GET['plyglo'];
@@ -35,9 +25,9 @@ $grupaPa->execute();
 
 
     
-   $query = "select distinct P.idProdukt, P.Nazwa From mydb.Kategoria as K 
-     inner Join mydb.Produkt as P on K.Produkt_idProdukt = P.idProdukt 
-inner Join mydb.ListaGrup as LG
+   $query = "select distinct P.idProdukt, P.Nazwa From Kategoria as K 
+     inner Join Produkt as P on K.Produkt_idProdukt = P.idProdukt 
+inner Join ListaGrup as LG
 on P.idProdukt = LG.idProdukt WHERE NazwaK = 'Pamięć'";
 
         $pamiec = $pdo->prepare($query);
@@ -67,7 +57,7 @@ foreach ($grupaPa as $row) {
 
 <div class="PamiecBox">
 <?php
-$pamiecG = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Pamięć'");
+$pamiecG = $pdo->prepare("select * From Kategoria as K inner Join Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Pamięć'");
 $pamiecG->execute();
 foreach ($pamiecG as $row) {
                                  echo"<div id=\"content\">";

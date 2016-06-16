@@ -1,14 +1,6 @@
 <?php
-$pdo = new PDO('mysql:host=localhost;dbname=mydb', 'root', 'zaq11qaz');
+require_once '../../connection.php';
 
-try {
-    $pdo->query('SET NAMES utf8');
-    $pdo->query('SET CHARACTER_SET utf8_unicode_ci');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //echo 'Połączenie nawiązane!';
-} catch (PDOException $e) {
-    echo 'Połączenie nie mogło zostać utworzone: ' . $e->getMessage();
-}
 if (isset($_SESSION['Zalogowany']) && $_SESSION['Zalogowany'] == TRUE) {
     header('Location:index_uzytkownik.php');
     exit();
@@ -22,18 +14,19 @@ if (isset($_SESSION['Zalogowany']) && $_SESSION['Zalogowany'] == TRUE) {
 <!DOCTYPE html>
 
 <html>
-
     <head>
-
-        <meta charset="utf-8">
+       <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Sklep internetowy</title> 
         <link href="../Content/css/bootstrap.min.css" rel="stylesheet">
         <link href="../Content/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+         <link href="../Content/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="../Content/css/style.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+ <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
         <script src="../Content/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../../plik.js"></script>
     </head>
 
     <body>
@@ -94,7 +87,7 @@ if (isset($_SESSION['Zalogowany']) && $_SESSION['Zalogowany'] == TRUE) {
 
                         <?php
                         //Wybór kategori z bazy danych
-                        $kate = $pdo->prepare("SELECT * FROM mydb.Produkt as P INNER JOIN mydb.Kategoria K on K.Produkt_idProdukt=P.idProdukt GROUP BY K.NazwaK");
+                        $kate = $pdo->prepare("SELECT * FROM Produkt as P INNER JOIN Kategoria K on K.Produkt_idProdukt=P.idProdukt GROUP BY K.NazwaK");
                         $kate->execute();
 
                         foreach ($kate as $row) {
@@ -103,23 +96,23 @@ if (isset($_SESSION['Zalogowany']) && $_SESSION['Zalogowany'] == TRUE) {
 
                        
                         ?>
-                        <option value="dodNo">-- Dodaj nową --</option>
+<!--                        <option value="dodNo">-- Dodaj nową --</option>-->
                     </select> 
-                    <div class="addK" id="addKate" style="display: none">
+<!--                    <div class="addK" id="addKate" style="display: none">
                         <br>
                         <input type="text" class="form-controfl" value="" name="kategoria1" /> 
                         <br>
-                    </div>
+                    </div>-->
 
 <!--Dodawanie nowej kategori -->
-                    <script>
+<!--                    <script>
                         function dodajNowKa() {
                             var x = document.getElementById("kategoria").value;
                             if (x == 'dodNo') {
                                 $("#addKate").show();
                             }
                         }
-                    </script>
+                    </script>-->
 
                     <br>
                     <br>
@@ -127,7 +120,7 @@ if (isset($_SESSION['Zalogowany']) && $_SESSION['Zalogowany'] == TRUE) {
 
                     <?php
                     //Wybór Grupy z bazy danych
-                    $gru = $pdo->prepare("select * From mydb.GrupaProduktow");
+                    $gru = $pdo->prepare("select * From GrupaProduktow");
                     $gru->execute();
 
                     foreach ($gru as $row) {

@@ -1,23 +1,8 @@
 <?php
+require_once 'connection.php'; 
 
 session_start();	//otwieram sesję	
-//if(!isset($_SESSION['koszyk']))	//jezeli sesja po raz pierwszy otwarta	
-//{		$_SESSION['koszyk']=array();	//czyść koszyk	
-//}	if(isset($_GET['item']))	
-//{		//dodajemy gitarę do koszyka		
-//$_SESSION['koszyk'][]=$_GET['item'];		//przekierowanie z uwzględnieniem nie działających ciasteczek		
-//header('location: ' . $_SERVER['PHP_SELF'] . '?' . SID);				
 
-$pdo = new PDO('mysql:host=localhost;dbname=mydb', 'root', 'zaq11qaz');
-
-try {
-    $pdo->query('SET NAMES utf8');
-    $pdo->query('SET CHARACTER_SET utf8_unicode_ci');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //echo 'Połączenie nawiązane!';
-} catch (PDOException $e) {
-    echo 'Połączenie nie mogło zostać utworzone: ' . $e->getMessage();
-}
 
 if(isset($_SESSION['ZalogowanyAdmin'])&& $_SESSION['ZalogowanyAdmin']== TRUE){
     header('Location:html/View/index_admin.php');
@@ -99,7 +84,7 @@ $Koszyk=array();
                      
                         <option value="">-- wybierz --</option>
                         <?php
-                        $obudowa = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Obudowa'");
+                        $obudowa = $pdo->prepare("select * From Kategoria as K inner Join Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Obudowa'");
                         $obudowa->execute();
 
                         foreach ($obudowa as $row) {
@@ -111,7 +96,7 @@ $Koszyk=array();
 
                     <div class="ObudowaBox">
                         <?php
-                        $dane = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Obudowa'");
+                        $dane = $pdo->prepare("select * From Kategoria as K inner Join Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Obudowa'");
                         $dane->execute();
 
                         foreach ($dane as $row) {

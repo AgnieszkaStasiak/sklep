@@ -1,14 +1,6 @@
 <?php
-$pdo = new PDO('mysql:host=localhost;dbname=mydb', 'root', 'zaq11qaz');
 
-try {
-    $pdo->query('SET NAMES utf8');
-    $pdo->query('SET CHARACTER_SET utf8_unicode_ci');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //echo 'Połączenie nawiązane!';
-} catch (PDOException $e) {
-    echo 'Połączenie nie mogło zostać utworzone: ' . $e->getMessage();
-}
+require_once '../../connection.php';
 
 
 // Retrieve data from Query String
@@ -28,8 +20,8 @@ $grupaZ->execute();
     foreach ($grupaZ as $row) {
         if ($row[idProdukt] == $obud) {
 
-            $zasilacz = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P
-on K.Produkt_idProdukt = P.idProdukt inner Join mydb.ListaGrup as LG
+            $zasilacz = $pdo->prepare("select * From Kategoria as K inner Join Produkt as P
+on K.Produkt_idProdukt = P.idProdukt inner Join ListaGrup as LG
 on P.idProdukt = LG.idProdukt WHERE NazwaK = 'Zasilacz'and LG.idGrupaProduktow = $row[idGrupaProduktow]");
             $zasilacz->execute();
 
@@ -51,7 +43,7 @@ on P.idProdukt = LG.idProdukt WHERE NazwaK = 'Zasilacz'and LG.idGrupaProduktow =
 
 <div class="ZasilaczBox">
 <?php
-$zasilaczG = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Zasilacz'");
+$zasilaczG = $pdo->prepare("select * From Kategoria as K inner Join Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Zasilacz'");
 $zasilaczG->execute();
 foreach ($zasilaczG as $row) {
                                 

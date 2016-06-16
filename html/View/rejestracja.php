@@ -1,16 +1,6 @@
 <?php
 
-
-    $pdo = new PDO('mysql:host=localhost;dbname=mydb', 'root', 'zaq11qaz');
-
-    try {
-        $pdo->query('SET NAMES utf8');
-        $pdo->query('SET CHARACTER_SET utf8_unicode_ci');
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //echo 'Połączenie nawiązane!';
-    } catch (PDOException $e) {
-        echo 'Połączenie nie mogło zostać utworzone: ' . $e->getMessage();
-    }
+require_once '../../connection.php';
 
  if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
@@ -120,8 +110,8 @@
 
 
 
-    // $Emaili = $pdo->prepare("SELECT * FROM mydb.Produkt");
-    $EmailI = $pdo->prepare("SELECT idUzytkownik FROM mydb.Uzytkownik WHERE Email='$email'");
+    // $Emaili = $pdo->prepare("SELECT * FROM Produkt");
+    $EmailI = $pdo->prepare("SELECT idUzytkownik FROM Uzytkownik WHERE Email='$email'");
     $EmailI ->execute();
     $ileE =0;
     
@@ -136,7 +126,7 @@
     }
     
     //Czy login jest już zarezerwowany?
-    $rezultat = $pdo->prepare("SELECT idUzytkownik FROM mydb.Uzytkownik WHERE Login='$Login'");
+    $rezultat = $pdo->prepare("SELECT idUzytkownik FROM Uzytkownik WHERE Login='$Login'");
     $rezultat -> execute();
     $ile = 0;
     
@@ -161,7 +151,7 @@
         }
 
 $haslo =  sha1($haslo);
-        $db = $pdo->prepare("SELECT idAdres FROM mydb.Adres ORDER BY idAdres DESC LIMIT 1");
+        $db = $pdo->prepare("SELECT idAdres FROM Adres ORDER BY idAdres DESC LIMIT 1");
         $db->execute();
 
         $idAd = $db->fetchColumn(0);
@@ -211,9 +201,9 @@ mysql_close ($db);
     <body>
       <div class="zawartosc">
 
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">"Sklep"</a>
+                <a class="navbar-brand" href="../../index.php">Twój komuter</a>
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Rozwiń nawigację</span>
@@ -311,7 +301,7 @@ if (isset($NiePrDan)) {
                   
                     <!--                    Login-->
 
-                    <label >Login:</label > <br> <input type="text" class="form-control" value="" name="login" /><br />
+                    <label >Login:</label > <br> <input  type="text" class="form-control" value="" name="login" /><br />
 
 
                     <?php

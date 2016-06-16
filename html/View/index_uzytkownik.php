@@ -1,15 +1,6 @@
 <?php
 session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=mydb', 'root', 'zaq11qaz');
-
-try {
-    $pdo->query('SET NAMES utf8');
-    $pdo->query('SET CHARACTER_SET utf8_unicode_ci');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //echo 'Połączenie nawiązane!';
-} catch (PDOException $e) {
-    echo 'Połączenie nie mogło zostać utworzone: ' . $e->getMessage();
-}
+require_once '../../connection.php';
 
 if(isset($_SESSION['ZalogowanyAdmin'])&& $_SESSION['ZalogowanyAdmin']== TRUE){
     header('Location:index_admin.php');
@@ -51,7 +42,7 @@ if (!isset($_SESSION['Zalogowany']) && $_SESSION['Zalogowany'] == FALSE) {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index_uzytkownik.php">"Twój Komputer"</a>
+      <a class="navbar-brand" href="index_uzytkownik.php">Twój Komputer</a>
     </div>
 
     <!-- Grupowanie elementów menu w celu lepszego wyświetlania na urządzeniach moblinych -->
@@ -90,7 +81,7 @@ if (!isset($_SESSION['Zalogowany']) && $_SESSION['Zalogowany'] == FALSE) {
                      
                         <option value="">-- wybierz --</option>
                         <?php
-                        $obudowa = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Obudowa'");
+                        $obudowa = $pdo->prepare("select * From Kategoria as K inner Join Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Obudowa'");
                         $obudowa->execute();
 
                         foreach ($obudowa as $row) {
@@ -102,7 +93,7 @@ if (!isset($_SESSION['Zalogowany']) && $_SESSION['Zalogowany'] == FALSE) {
 
                     <div class="ObudowaBox">
                         <?php
-                        $dane = $pdo->prepare("select * From mydb.Kategoria as K inner Join mydb.Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Obudowa'");
+                        $dane = $pdo->prepare("select * From Kategoria as K inner Join Produkt as P on K.Produkt_idProdukt= P.idProdukt WHERE NazwaK = 'Obudowa'");
                         $dane->execute();
 
                         foreach ($dane as $row) {
